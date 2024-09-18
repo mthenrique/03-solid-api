@@ -1,5 +1,5 @@
 import { app } from "./app";
-import { env } from "./envs";
+import { env } from "../../envs";
 
 app.listen({ 
     port: env.PORT,
