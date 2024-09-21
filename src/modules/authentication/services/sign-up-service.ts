@@ -1,6 +1,7 @@
 import { UsersRepository } from "@/infra/database/repositories/users-repository"
 import { ExceptionError } from "@/infra/errors/exception-error"
 import { hash } from "bcryptjs"
+import { UserAlreadyExistsError } from "../infra/errors/user-already-exists-error"
 
 interface ISignUpServiceRequestDTO {
   name: string
@@ -18,7 +19,7 @@ class SignUpService {
       const userAlreadyExists = await this.usersRepository.findByEmail(email)
   
       if (userAlreadyExists) {
-        throw new Error('User already exists')
+        throw new UserAlreadyExistsError()
       }
   
       const hashedPassword = await hash(password, 6)
@@ -29,6 +30,10 @@ class SignUpService {
         hashedPassword
       })
     } catch (error) {
+      if (error instanceof UserAlreadyExistsError) {
+        throw new UserAlreadyExistsError()
+      }
+
       throw new ExceptionError('Sign up error', error)
     }
   }
