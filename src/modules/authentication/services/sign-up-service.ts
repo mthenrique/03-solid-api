@@ -22,12 +22,12 @@ class SignUpService {
         throw new UserAlreadyExistsError()
       }
   
-      const hashedPassword = await hash(password, 6)
+      const passwordHash = await hash(password, 6)
   
       await this.usersRepository.create({
         name,
         email,
-        hashedPassword
+        passwordHash
       })
     } catch (error) {
       if (error instanceof UserAlreadyExistsError) {
