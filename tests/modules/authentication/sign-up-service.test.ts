@@ -1,7 +1,7 @@
 import SignUpService from "@/modules/authentication/services/sign-up-service"
 import UserRepositoryInMemory from "tests/in-memory-repositories/user-repository-in-memory"
 import { it, expect, describe, vi } from "vitest"
-import { compare } from 'bcryptjs'
+import { compare } from 'bcrypt'
 import { UserAlreadyExistsError } from "@/modules/authentication/infra/errors/user-already-exists-error"
 import { ExceptionError } from "@/infra/errors/exception-error"
 
