@@ -4,7 +4,7 @@ import { ExceptionError } from "@/infra/errors/exception-error";
 import { ResourceNotFoundError } from "../infra/errors/resource-not-found-error";
 import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
 import { ICheckInDTO } from "@/infra/database/repositories/dtos/check-ins/i-check-in-dto";
-import { getDistanceBetweenCoordinates } from "../utils/get-distance-between-coordinates";
+import { getDistanceBetweenCoordinates } from "./utils/get-distance-between-coordinates";
 import { env } from "@/envs";
 
 interface ICheckInServiceRequest {
