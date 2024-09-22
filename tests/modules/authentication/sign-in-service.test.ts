@@ -3,14 +3,14 @@ import { hash } from 'bcrypt';
 import { ExceptionError } from '@/infra/errors/exception-error';
 import SignInService from '@/modules/authentication/services/sign-in-service';
 import { InvalidCredentialError } from '@/modules/authentication/infra/errors/invalid-credential-error';
-import UserRepositoryInMemory from 'tests/in-memory-repositories/user-repository-in-memory';
+import UsersRepositoryInMemory from 'tests/in-memory-repositories/users-repository-in-memory';
 
-let userRepositoryInMemory = new UserRepositoryInMemory();
+let userRepositoryInMemory:UsersRepositoryInMemory;
 let signInService: SignInService;
 
 describe('SignInService', async () => {
   beforeEach(() => {
-    userRepositoryInMemory = new UserRepositoryInMemory()
+    userRepositoryInMemory = new UsersRepositoryInMemory()
     signInService = new SignInService(userRepositoryInMemory);
   })
 

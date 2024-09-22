@@ -3,15 +3,15 @@ import { it, expect, describe, vi, beforeEach } from "vitest"
 import { compare } from 'bcrypt'
 import { UserAlreadyExistsError } from "@/modules/authentication/infra/errors/user-already-exists-error"
 import { ExceptionError } from "@/infra/errors/exception-error"
-import UserRepositoryInMemory from "tests/in-memory-repositories/user-repository-in-memory"
+import UsersRepositoryInMemory from "tests/in-memory-repositories/users-repository-in-memory"
 
 
-let usersRepositoryInMemory: UserRepositoryInMemory
+let usersRepositoryInMemory: UsersRepositoryInMemory
 let signUpService: SignUpService
 
 describe("SignUp", () => {
   beforeEach(() => {
-    usersRepositoryInMemory = new UserRepositoryInMemory()
+    usersRepositoryInMemory = new UsersRepositoryInMemory()
     signUpService = new SignUpService(usersRepositoryInMemory)
   })
 

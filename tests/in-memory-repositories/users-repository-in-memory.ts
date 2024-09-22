@@ -2,7 +2,7 @@ import { ICreateUserDTO } from "@/infra/database/repositories/dtos/users/i-creat
 import { IUserDTO, IUserWithPasswordDTO } from "@/infra/database/repositories/dtos/users/i-user-dto";
 import { UsersRepository } from "@/infra/database/repositories/users-repository";
 
-class UserRepositoryInMemory implements UsersRepository {
+class UsersRepositoryInMemory implements UsersRepository {
   private users: IUserWithPasswordDTO[] = []
 
   async create(data: ICreateUserDTO): Promise<IUserDTO> {
@@ -45,6 +45,21 @@ class UserRepositoryInMemory implements UsersRepository {
       createdAt: user.createdAt
     }
   }
+
+  async findById(id: string): Promise<IUserDTO | null> {
+    const user = this.users.find(user => user.id === id)
+
+    if (!user) {
+      return null
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt
+    }
+  }
 }
 
-export default UserRepositoryInMemory
+export default UsersRepositoryInMemory
