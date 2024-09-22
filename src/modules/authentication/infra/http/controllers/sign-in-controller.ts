@@ -1,5 +1,6 @@
 import { PrismaUsersRepository } from "@/infra/database/repositories/prisma/prisma-users-repository";
 import ParametersError from "@/infra/errors/parameters-error";
+import SignInFactory from "@/modules/authentication/factories/sign-in-factory";
 import SignInService from "@/modules/authentication/services/sign-in-service";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -19,10 +20,9 @@ class SignInController {
 
     const { email, password } = body.data
 
-    const userRepository = new PrismaUsersRepository()
-    const signInService = new SignInService(userRepository)
-
-    const { user } = await signInService.execute({
+    const signInFactory = new SignInFactory()
+    
+    const { user } = await signInFactory.make().execute({
       email,
       password
     })

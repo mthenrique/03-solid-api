@@ -27,7 +27,6 @@ class SignInService {
       }
 
       const isPasswordEqual = await compare(password, user.passwordHash)
-      console.log('isPasswordEqual', isPasswordEqual)
 
       if (!isPasswordEqual) {
         throw new InvalidCredentialError()
