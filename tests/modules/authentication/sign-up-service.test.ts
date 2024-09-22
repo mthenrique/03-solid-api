@@ -25,7 +25,6 @@ describe("SignUp", () => {
     await signUpService.execute(newUser)
 
     const userWithPassword = await usersRepositoryInMemory.findByEmailWithPassword(newUser.email)
-    console.log('USER: ', userWithPassword)
 
     if (!userWithPassword) {
       throw new Error('User not found')

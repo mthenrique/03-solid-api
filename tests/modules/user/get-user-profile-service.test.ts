@@ -4,7 +4,7 @@ import { UserNotFoundError } from "@/modules/user/infra/errors/user-not-found-er
 import GetUserProfileService from "@/modules/user/services/get-user-profile-service";
 import { hash } from "bcrypt";
 import UsersRepositoryInMemory from "tests/in-memory-repositories/users-repository-in-memory";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 let usersRepository: UsersRepository
 let getUserProfileService: GetUserProfileService
@@ -39,9 +39,9 @@ describe('GetUserProfileService', () => {
   });
 
   it('should throw ExceptionError when unexpected error occurs', async () => {
-    usersRepository.findById = async () => {
-      throw new Error('Unexpected error');
-    };
+    vi.spyOn(usersRepository, 'findById').mockImplementationOnce(() => {
+      throw new Error()
+    })
 
     await expect(
       getUserProfileService.execute({ userId: 'existing-user-id' })

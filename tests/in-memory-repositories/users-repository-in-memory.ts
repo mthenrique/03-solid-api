@@ -1,20 +1,21 @@
 import { ICreateUserDTO } from "@/infra/database/repositories/dtos/users/i-create-user-dto";
 import { IUserDTO, IUserWithPasswordDTO } from "@/infra/database/repositories/dtos/users/i-user-dto";
 import { UsersRepository } from "@/infra/database/repositories/users-repository";
+import { randomUUID } from "node:crypto";
 
 class UsersRepositoryInMemory implements UsersRepository {
   private users: IUserWithPasswordDTO[] = []
 
   async create(data: ICreateUserDTO): Promise<IUserDTO> {
-    this.users.push({
-      id: 'uuid',
+    const user: IUserWithPasswordDTO = {
+      id: randomUUID(),
       passwordHash: data.passwordHash,
       email: data.email,
       name: data.name,
       createdAt: new Date()
-    })
+    }
 
-    const user = this.users[0]
+    this.users.push(user)
 
     return {
       id: user.id,
