@@ -1,7 +1,7 @@
 import { UsersRepository } from "@/infra/database/repositories/users-repository"
 import { ExceptionError } from "@/infra/errors/exception-error"
-import { hash } from "bcryptjs"
 import { UserAlreadyExistsError } from "../infra/errors/user-already-exists-error"
+import { hash } from 'bcrypt'
 
 interface ISignUpServiceRequestDTO {
   name: string
