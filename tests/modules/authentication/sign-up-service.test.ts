@@ -1,16 +1,21 @@
 import SignUpService from "@/modules/authentication/services/sign-up-service"
-import UserRepositoryInMemory from "tests/in-memory-repositories/user-repository-in-memory"
-import { it, expect, describe, vi } from "vitest"
+import { it, expect, describe, vi, beforeEach } from "vitest"
 import { compare } from 'bcrypt'
 import { UserAlreadyExistsError } from "@/modules/authentication/infra/errors/user-already-exists-error"
 import { ExceptionError } from "@/infra/errors/exception-error"
+import UserRepositoryInMemory from "tests/in-memory-repositories/user-repository-in-memory"
+
+
+let usersRepositoryInMemory: UserRepositoryInMemory
+let signUpService: SignUpService
 
 describe("SignUp", () => {
-  it ("should be able to hash a password", async () => {
-    const userRepositoryInMemory = new UserRepositoryInMemory()
-    
-    const  signUpService = new SignUpService(userRepositoryInMemory)
+  beforeEach(() => {
+    usersRepositoryInMemory = new UserRepositoryInMemory()
+    signUpService = new SignUpService(usersRepositoryInMemory)
+  })
 
+  it ("should be able to hash a password", async () => {
     const newUser = {
       name: "John Doe",
       email: "z5nQs@example.com",
@@ -19,7 +24,7 @@ describe("SignUp", () => {
 
     await signUpService.execute(newUser)
 
-    const userWithPassword = await userRepositoryInMemory.findByEmailWithPassword(newUser.email)
+    const userWithPassword = await usersRepositoryInMemory.findByEmailWithPassword(newUser.email)
     console.log('USER: ', userWithPassword)
 
     if (!userWithPassword) {
@@ -32,10 +37,6 @@ describe("SignUp", () => {
   })
 
   it ("should be able to create a new user", async () => {
-    const userRepositoryInMemory = new UserRepositoryInMemory()
-    
-    const  signUpService = new SignUpService(userRepositoryInMemory)
-
     const userData = {
       name: "John Doe",
       email: "z5nQs@example.com",
@@ -44,7 +45,7 @@ describe("SignUp", () => {
 
     await signUpService.execute(userData)
 
-    const user = await userRepositoryInMemory.findByEmailWithPassword(userData.email)
+    const user = await usersRepositoryInMemory.findByEmailWithPassword(userData.email)
 
     expect(user).toBeTruthy()
     expect(user?.name).toEqual(userData.name)
@@ -53,10 +54,6 @@ describe("SignUp", () => {
   })
 
   it ("should not be able to create a new user with an existing email", async () => {
-    const userRepositoryInMemory = new UserRepositoryInMemory()
-    
-    const  signUpService = new SignUpService(userRepositoryInMemory)
-
     const newUser = {
       name: "John Doe",
       email: "z5nQs@example.com",
@@ -69,14 +66,11 @@ describe("SignUp", () => {
   })
 
   it("should throw ExceptionError if there's an unexpected error", async () => {
-    const userRepositoryInMemory = new UserRepositoryInMemory();
-
-    // Simulamos um erro inesperado no método `findByEmail`
-    vi.spyOn(userRepositoryInMemory, 'findByEmail').mockImplementationOnce(() => {
+    vi.spyOn(usersRepositoryInMemory, 'findByEmail').mockImplementationOnce(() => {
       throw new Error("Unexpected error");
     });
 
-    const signUpService = new SignUpService(userRepositoryInMemory);
+    const signUpService = new SignUpService(usersRepositoryInMemory);
 
     const newUser = {
       name: "John Doe",
@@ -84,10 +78,8 @@ describe("SignUp", () => {
       password: "12345678",
     };
 
-    // Verificamos se o SignUpService lança a ExceptionError quando ocorre um erro inesperado
     await expect(signUpService.execute(newUser)).rejects.toThrowError(ExceptionError);
 
-    // Restaurar o comportamento original após o teste
     vi.restoreAllMocks();
   });
 })

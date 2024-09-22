@@ -1,13 +1,18 @@
-import { describe, expect, it, vi } from 'vitest';
-import { compare, hash } from 'bcrypt';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { hash } from 'bcrypt';
 import { ExceptionError } from '@/infra/errors/exception-error';
-import UserRepositoryInMemory from 'tests/in-memory-repositories/user-repository-in-memory';
 import SignInService from '@/modules/authentication/services/sign-in-service';
 import { InvalidCredentialError } from '@/modules/authentication/infra/errors/invalid-credential-error';
+import UserRepositoryInMemory from 'tests/in-memory-repositories/user-repository-in-memory';
+
+let userRepositoryInMemory = new UserRepositoryInMemory();
+let signInService: SignInService;
 
 describe('SignInService', async () => {
-  const userRepository = new UserRepositoryInMemory();
-  const signInService = new SignInService(userRepository);
+  beforeEach(() => {
+    userRepositoryInMemory = new UserRepositoryInMemory()
+    signInService = new SignInService(userRepositoryInMemory);
+  })
 
   it('should sign in successfully with valid credentials', async () => {
     const userData = {
@@ -18,7 +23,7 @@ describe('SignInService', async () => {
 
     const passwordHash = await hash('password', 6)
 
-    await userRepository.create({
+    await userRepositoryInMemory.create({
       name: userData.name,
       email: userData.email,
       passwordHash: passwordHash,
@@ -45,7 +50,7 @@ describe('SignInService', async () => {
 
     const passwordHash = await hash('password', 6)
 
-    await userRepository.create({
+    await userRepositoryInMemory.create({
       name: userData.name,
       email: userData.email,
       passwordHash: passwordHash,
@@ -57,7 +62,7 @@ describe('SignInService', async () => {
   });
 
   it('should throw ExceptionError with unknown error', async () => {
-    vi.spyOn(userRepository, 'findByEmailWithPassword').mockRejectedValueOnce(new Error('Unknown error'));
+    vi.spyOn(userRepositoryInMemory, 'findByEmailWithPassword').mockRejectedValueOnce(new Error('Unknown error'));
 
     await expect(signInService.execute({ email: 'john.doe@example.com', password: 'password' })).rejects.toThrow(
       ExceptionError,
