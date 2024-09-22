@@ -1,7 +1,7 @@
 export interface ICreateGymDTO {
   title: string
-  description: string
-  phone?: string | null
+  description: string | null
+  phone: string | null
   latitude: number
   longitude: number
 }
