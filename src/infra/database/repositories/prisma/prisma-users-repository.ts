@@ -43,8 +43,39 @@ class PrismaUsersRepository implements UsersRepository {
 
   async findByEmail(email: string): Promise<IUserDTO | null> {
     const user = await prisma.user.findUnique({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        created_at: true
+      },
       where: {
         email
+      }
+    })
+
+    if (!user) {
+      return null
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.created_at
+    }
+  }
+
+  async findById(id: string): Promise<IUserDTO | null> {
+    const user = await prisma.user.findUnique({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        created_at: true
+      },
+      where: {
+        id
       }
     })
 

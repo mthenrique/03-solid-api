@@ -4,5 +4,6 @@ import { IUserDTO, IUserWithPasswordDTO } from "./dtos/users/i-user-dto";
 export interface UsersRepository {
   findByEmailWithPassword(email: string): Promise<IUserWithPasswordDTO | null>
   findByEmail(email: string): Promise<IUserDTO | null>
+  findById(id: string): Promise<IUserDTO | null>
   create(data: ICreateUserDTO): Promise<IUserDTO>
 }
