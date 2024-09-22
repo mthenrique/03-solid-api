@@ -16,11 +16,11 @@ class GetUserProfileService {
     try {
       const user = await this.usersRepository.findById(userId)
 
-    if (!user) {
-      throw new UserNotFoundError()
-    }
+      if (!user) {
+        throw new UserNotFoundError()
+      }
 
-    return user
+      return user
     } catch (error) {
       if (error instanceof UserNotFoundError) {
         throw new UserNotFoundError()
