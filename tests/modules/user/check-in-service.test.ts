@@ -2,6 +2,8 @@ import { CheckInsRepository } from "@/infra/database/repositories/check-ins-repo
 import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
 import { UsersRepository } from "@/infra/database/repositories/users-repository";
 import { ExceptionError } from "@/infra/errors/exception-error";
+import { CheckInMaxDistanceReachedError } from "@/modules/user/infra/errors/check-in-max-distance-reached-error";
+import { MaxNumberOfCheckInsReachedError } from "@/modules/user/infra/errors/max-number-of-check-ins-reached-error";
 import { ResourceNotFoundError } from "@/modules/user/infra/errors/resource-not-found-error";
 import CheckInService from "@/modules/user/services/check-in-service";
 import { hash } from "bcrypt";
@@ -74,7 +76,7 @@ describe('CheckInService', () => {
       gymId: createdGym.id,
       userLatitude: -25.5191711,
       userLongitude: -49.1910574
-    })).rejects.toBeInstanceOf(ExceptionError)
+    })).rejects.toBeInstanceOf(CheckInMaxDistanceReachedError)
   })
 
   it('should not be able to check in twice in the same day', async () => {
@@ -108,7 +110,7 @@ describe('CheckInService', () => {
       gymId: createdGym.id,
       userLatitude: -27.2092052,
       userLongitude: -49.6401091
-    })).rejects.toBeInstanceOf(ExceptionError)
+    })).rejects.toBeInstanceOf(MaxNumberOfCheckInsReachedError)
   })
 
   it('should throw ResourceNotFoundError when user is not found', async () => {

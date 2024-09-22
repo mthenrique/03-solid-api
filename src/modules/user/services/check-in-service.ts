@@ -6,6 +6,8 @@ import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
 import { ICheckInDTO } from "@/infra/database/repositories/dtos/check-ins/i-check-in-dto";
 import { getDistanceBetweenCoordinates } from "./utils/get-distance-between-coordinates";
 import { env } from "@/envs";
+import { MaxNumberOfCheckInsReachedError } from "../infra/errors/max-number-of-check-ins-reached-error";
+import { CheckInMaxDistanceReachedError } from "../infra/errors/check-in-max-distance-reached-error";
 
 interface ICheckInServiceRequest {
   userId: string
@@ -41,7 +43,7 @@ class CheckInService {
       const hasCheckInAvailable = await this.checkInsRepository.findByUserIdOnDate(userId, new Date())
 
       if (hasCheckInAvailable) {
-        throw new ExceptionError('User already checked in on today')
+        throw new MaxNumberOfCheckInsReachedError()
       }
 
       const distance = getDistanceBetweenCoordinates(
@@ -50,7 +52,7 @@ class CheckInService {
       )
 
       if (distance > env.CHECk_IN_DISTANCE_IN_KM_TO_GYM) {
-        throw new ExceptionError('The user is too far from the gym')
+        throw new CheckInMaxDistanceReachedError()
       }
 
       const checkIn = await this.checkInsRepository.create({
@@ -69,6 +71,14 @@ class CheckInService {
     } catch (error) {
       if (error instanceof ResourceNotFoundError) {
         throw new ResourceNotFoundError(error.message)
+      }
+
+      if (error instanceof CheckInMaxDistanceReachedError) {
+        throw new CheckInMaxDistanceReachedError()
+      }
+
+      if (error instanceof MaxNumberOfCheckInsReachedError) {
+        throw new MaxNumberOfCheckInsReachedError()
       }
 
       throw new ExceptionError('Check-in error', error)
