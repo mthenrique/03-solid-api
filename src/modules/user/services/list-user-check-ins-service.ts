@@ -1,5 +1,6 @@
 import { CheckInsRepository } from "@/infra/database/repositories/check-ins-repository"
 import { ICheckInDTO } from "@/infra/database/repositories/dtos/check-ins/i-check-in-dto"
+import { ExceptionError } from "@/infra/errors/exception-error"
 
 interface IListUserCheckInsServiceRequest {
   userId: string
@@ -16,10 +17,14 @@ class ListUserCheckInsService {
   ) {}
 
   async execute({ userId, page }: IListUserCheckInsServiceRequest): Promise<IListUserCheckInsServiceResponse> {
-    const checkIns = await this.checkInsRepository.findManyByUserId(userId, page)
+    try {
+      const checkIns = await this.checkInsRepository.findManyByUserId(userId, page)
 
-    return {
-      checkIns
+      return {
+        checkIns
+      }
+    } catch (error) {
+      throw new ExceptionError('List user check-ins error', error)
     }
   }
 

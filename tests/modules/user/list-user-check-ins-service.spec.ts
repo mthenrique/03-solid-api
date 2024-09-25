@@ -1,7 +1,8 @@
 import { CheckInsRepository } from "@/infra/database/repositories/check-ins-repository";
+import { ExceptionError } from "@/infra/errors/exception-error";
 import ListUserCheckInsService from "@/modules/user/services/list-user-check-ins-service";
 import CheckInsRepositoryInMemory from "tests/in-memory-repositories/check-ins-repository-in-memory";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 let checkInsRepository: CheckInsRepository
 let checkInsService: ListUserCheckInsService
@@ -60,4 +61,15 @@ describe('ListUserCheckInsService', () => {
       expect.objectContaining({ gymId: 'gym-22' })
     ])
   }
+
+  it('should throw ExceptionError when unexpected error occurs', async () => {
+    vi.spyOn(checkInsRepository, 'findManyByUserId').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    
+    await expect(() => checkInsService.execute({
+      userId: 'user-01',
+      page: 1
+    })).rejects.toBeInstanceOf(ExceptionError)
+  })
 })
