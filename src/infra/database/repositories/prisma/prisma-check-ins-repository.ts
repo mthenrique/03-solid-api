@@ -44,6 +44,25 @@ class PrismaCheckInsRepository implements CheckInsRepository {
       createdAt: checkIn?.created_at
     }
   }
+
+  async findManyByUserId(userId: string, page: number): Promise<ICheckInDTO[]> {
+    const checkIns = (await prisma.checkIn.findMany({
+      where: {
+        user_id: userId
+      },
+      take: 20,
+      skip: (page - 1) * 20
+    })).map(checkIn => {
+      return {
+        id: checkIn.id,
+        gymId: checkIn.gym_id,
+        userId: checkIn.user_id,
+        createdAt: checkIn.created_at
+      }
+    })
+
+    return checkIns
+  }
 }
 
 export default PrismaCheckInsRepository
