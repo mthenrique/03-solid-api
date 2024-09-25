@@ -48,6 +48,12 @@ class CheckInsRepositoryInMemory implements CheckInsRepository {
       createdAt: checkIn.createdAt
     }
   }
+
+  async findManyByUserId(userId: string, page: number): Promise<ICheckInDTO[]> {
+    return this.checkIns
+      .filter(checkIn => checkIn.userId === userId)
+      .slice((page - 1) * 20, page * 20)
+  }
 }
 
 export default CheckInsRepositoryInMemory
