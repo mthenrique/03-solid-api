@@ -1,4 +1,5 @@
 import { ICreateGymDTO } from "@/infra/database/repositories/dtos/gyms/i-create-gym-dto";
+import { IFindGymsByTitleDTO } from "@/infra/database/repositories/dtos/gyms/i-find-gyms-by-title-dto";
 import { IGymDTO } from "@/infra/database/repositories/dtos/gyms/i-gym-dto";
 import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
 import { randomUUID } from "node:crypto";
@@ -46,6 +47,12 @@ class GymsRepositoryInMemory implements GymsRepository {
       longitude: gym.longitude,
       createdAt: gym.createdAt
     }
+  }async findGymsByTitle({ query, page }: IFindGymsByTitleDTO): Promise<IGymDTO[]> {
+    const gyms = this.gyms
+      .filter(gym => gym.title.includes(query))
+      .slice((page - 1) * 20, page * 20)
+    
+    return gyms
   }
 }
 
