@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { CheckInsRepository } from "../check-ins-repository";
 import { ICheckInDTO } from "../dtos/check-ins/i-check-in-dto";
 import { ICreateCheckInDTO } from "../dtos/check-ins/i-create-check-in-dto";
+import dayjs from "dayjs";
 
 class PrismaCheckInsRepository implements CheckInsRepository {
   async create({userId, gymId, validatedAt}: ICreateCheckInDTO): Promise<ICheckInDTO> {
@@ -22,13 +23,15 @@ class PrismaCheckInsRepository implements CheckInsRepository {
   }
 
   async findByUserIdOnDate(userId: string, date: Date): Promise<ICheckInDTO | null> {
-    const startOfTheDay = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    const startOfTheDay = dayjs(date).startOf('date')
+    const endOfTheDay = dayjs(date).endOf('date')
 
     const checkIn = await prisma.checkIn.findFirst({
       where: {
         user_id: userId,
         created_at: {
-          gte: startOfTheDay
+          gte: startOfTheDay.toDate(),
+          lte: endOfTheDay.toDate()
         }
       }
     })
