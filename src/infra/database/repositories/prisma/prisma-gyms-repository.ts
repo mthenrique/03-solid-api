@@ -4,6 +4,7 @@ import { IGymDTO } from "../dtos/gyms/i-gym-dto";
 import { GymsRepository } from "../gyms-repository";
 import { IFindGymsByTitleDTO } from "../dtos/gyms/i-find-gyms-by-title-dto";
 import { IFindNearbyGymsDTO } from "../dtos/gyms/i-find-nearby-gyms-dto";
+import { Gym } from "@prisma/client";
 
 class PrismaGymsRepository implements GymsRepository {
   async create(data: ICreateGymDTO): Promise<IGymDTO> {
@@ -75,18 +76,12 @@ class PrismaGymsRepository implements GymsRepository {
   }
 
   async findManyNearby({ userLatitude, userLongitude }: IFindNearbyGymsDTO): Promise<IGymDTO[]> {
-    const gyms = (await prisma.gym.findMany({
-      where: {
-        latitude: {
-          gte: userLatitude - 0.01,
-          lte: userLatitude + 0.01
-        },
-        longitude: {
-          gte: userLongitude - 0.01,
-          lte: userLongitude + 0.01
-        }
-      }
-    })).map(gym => {
+    const gyms = await prisma.$queryRaw<Gym[]>`
+      SELECT * from gyms
+      WHERE ( 6371 * acos( cos( radians(${userLatitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${userLongitude}) ) + sin( radians(${userLatitude}) ) * sin( radians( latitude ) ) ) ) <= 10
+    `
+    
+    return gyms.map(gym => {
       return {
         id: gym.id,
         title: gym.title,
@@ -97,8 +92,6 @@ class PrismaGymsRepository implements GymsRepository {
         createdAt: gym.created_at
       }
     })
-
-    return gyms
   }
 }
 
