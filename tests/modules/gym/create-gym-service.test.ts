@@ -1,8 +1,8 @@
-import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
-import { ExceptionError } from "@/infra/errors/exception-error";
-import CreateGymService from "@/modules/gym/services/create-gym-service";
-import GymsRepositoryInMemory from "tests/in-memory-repositories/gyms-repository-in-memory";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
+import { ExceptionError } from '@/infra/errors/exception-error'
+import CreateGymService from '@/modules/gym/services/create-gym-service'
+import GymsRepositoryInMemory from 'tests/in-memory-repositories/gyms-repository-in-memory'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 let gymsRepository: GymsRepository
 let createGymService: CreateGymService
@@ -10,7 +10,7 @@ let createGymService: CreateGymService
 describe('CreateGymService', () => {
   beforeEach(() => {
     gymsRepository = new GymsRepositoryInMemory()
-    createGymService = new CreateGymService(gymsRepository)  
+    createGymService = new CreateGymService(gymsRepository)
   })
 
   it('should be able to create a gym', async () => {
@@ -19,7 +19,7 @@ describe('CreateGymService', () => {
       description: 'Gym description',
       phone: '11999999999',
       latitude: -25.516389,
-      longitude: -49.1798828
+      longitude: -49.1798828,
     }
 
     const createdGym = await createGymService.execute(gymData)
@@ -37,12 +37,14 @@ describe('CreateGymService', () => {
       throw new Error()
     })
 
-    await expect(() => createGymService.execute({
-      title: 'Gym',
-      description: 'Gym description',
-      phone: '11999999999',
-      latitude: -25.516389,
-      longitude: -49.1798828
-    })).rejects.toBeInstanceOf(ExceptionError)
+    await expect(() =>
+      createGymService.execute({
+        title: 'Gym',
+        description: 'Gym description',
+        phone: '11999999999',
+        latitude: -25.516389,
+        longitude: -49.1798828,
+      }),
+    ).rejects.toBeInstanceOf(ExceptionError)
   })
 })

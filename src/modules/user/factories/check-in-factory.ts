@@ -1,7 +1,7 @@
-import PrismaGymsRepository from "@/infra/database/repositories/prisma/prisma-gyms-repository"
-import { PrismaUsersRepository } from "@/infra/database/repositories/prisma/prisma-users-repository"
-import CheckInsRepositoryInMemory from "tests/in-memory-repositories/check-ins-repository-in-memory"
-import CheckInService from "../services/check-in-service"
+import PrismaGymsRepository from '@/infra/database/repositories/prisma/prisma-gyms-repository'
+import { PrismaUsersRepository } from '@/infra/database/repositories/prisma/prisma-users-repository'
+import CheckInsRepositoryInMemory from 'tests/in-memory-repositories/check-ins-repository-in-memory'
+import CheckInService from '../services/check-in-service'
 
 class CheckInFactory {
   public make() {
@@ -12,7 +12,7 @@ class CheckInFactory {
     const checkInService = new CheckInService(
       usersRepository,
       gymsRepository,
-      checkInsRepository
+      checkInsRepository,
     )
 
     return checkInService

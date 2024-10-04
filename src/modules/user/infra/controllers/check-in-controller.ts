@@ -1,10 +1,9 @@
-import ParametersError from "@/infra/errors/parameters-error"
-import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
-import CheckInFactory from "../../factories/check-in-factory"
+import ParametersError from '@/infra/errors/parameters-error'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
+import CheckInFactory from '../../factories/check-in-factory'
 
 class CheckInController {
-
   async handle(request: FastifyRequest, reply: FastifyReply) {
     // TODO: Implements token validation
     const { userId: nomValidatedUserId } = request
@@ -14,20 +13,24 @@ class CheckInController {
       gymId: z.string().uuid(),
       userLatitude: z.coerce.number(),
       userLongitude: z.coerce.number(),
-      validatedAt: z.coerce.date().optional()
+      validatedAt: z.coerce.date().optional(),
     })
 
     const body = checkInBodySchema.safeParse({
       ...(typeof request.body === 'object' ? request.body : {}),
       ...(typeof request.params === 'object' ? request.params : {}),
-      userId: nomValidatedUserId
+      userId: nomValidatedUserId,
     })
 
     if (!body.success) {
-      throw new ParametersError('Parameters validation error', body.error.format())
+      throw new ParametersError(
+        'Parameters validation error',
+        body.error.format(),
+      )
     }
 
-    const { userId, gymId, userLatitude, userLongitude, validatedAt } = body.data
+    const { userId, gymId, userLatitude, userLongitude, validatedAt } =
+      body.data
 
     const checkInFactory = new CheckInFactory()
     const checkIn = await checkInFactory.make().execute({
@@ -35,7 +38,7 @@ class CheckInController {
       gymId,
       validatedAt,
       userLatitude,
-      userLongitude
+      userLongitude,
     })
 
     return reply.status(201).send(checkIn)

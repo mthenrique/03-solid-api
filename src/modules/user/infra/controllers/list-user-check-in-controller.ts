@@ -1,6 +1,6 @@
-import ParametersError from "@/infra/errors/parameters-error"
-import { z } from "zod"
-import ListUserCheckInsFactory from "../../factories/list-user-check-ins-factory"
+import ParametersError from '@/infra/errors/parameters-error'
+import { z } from 'zod'
+import ListUserCheckInsFactory from '../../factories/list-user-check-ins-factory'
 
 class ListUserCheckInsController {
   async handle(request: any, reply: any) {
@@ -9,13 +9,16 @@ class ListUserCheckInsController {
 
     const listUserCheckInBodySchema = z.object({
       userId: z.string().uuid(),
-      page: z.coerce.number().default(1)
+      page: z.coerce.number().default(1),
     })
 
     const body = listUserCheckInBodySchema.safeParse({ nomValidatedUserId })
 
-    if(!body.success) {
-      throw new ParametersError('Parameters validation error', body.error.format())
+    if (!body.success) {
+      throw new ParametersError(
+        'Parameters validation error',
+        body.error.format(),
+      )
     }
 
     const { userId, page } = body.data
@@ -23,7 +26,7 @@ class ListUserCheckInsController {
     const listUserCheckInsFactory = new ListUserCheckInsFactory()
     const checkIns = await listUserCheckInsFactory.make().execute({
       userId,
-      page
+      page,
     })
 
     return reply.status(200).send({ checkIns })

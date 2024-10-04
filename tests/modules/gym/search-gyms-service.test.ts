@@ -2,12 +2,12 @@ import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import SearchGymsService from '@/modules/gym/services/search-gyms-service'
 import GymsRepositoryInMemory from 'tests/in-memory-repositories/gyms-repository-in-memory'
-import {describe, it, expect, beforeEach, vi} from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 describe('SearchGymsService', () => {
   let gymsRepository: GymsRepository
   let searchGymsService: SearchGymsService
-  
+
   beforeEach(() => {
     gymsRepository = new GymsRepositoryInMemory()
     searchGymsService = new SearchGymsService(gymsRepository)
@@ -19,7 +19,7 @@ describe('SearchGymsService', () => {
       description: null,
       phone: null,
       latitude: -27.2092052,
-      longitude: -49.6401091
+      longitude: -49.6401091,
     })
 
     await gymsRepository.create({
@@ -27,18 +27,16 @@ describe('SearchGymsService', () => {
       description: null,
       phone: null,
       latitude: -27.2092052,
-      longitude: -49.6401091
+      longitude: -49.6401091,
     })
 
     const { gyms } = await searchGymsService.execute({
       query: 'Gym 1',
-      page: 1
+      page: 1,
     })
 
     expect(gyms).toHaveLength(1)
-    expect(gyms).toEqual([
-      expect.objectContaining({ title: 'Gym 1' })
-    ])
+    expect(gyms).toEqual([expect.objectContaining({ title: 'Gym 1' })])
   })
 
   it('should be able to search gyms with pagination', async () => {
@@ -48,19 +46,19 @@ describe('SearchGymsService', () => {
         description: null,
         phone: null,
         latitude: -27.2092052,
-        longitude: -49.6401091
+        longitude: -49.6401091,
       })
     }
 
     const { gyms } = await searchGymsService.execute({
       query: 'Gym',
-      page: 2
+      page: 2,
     })
 
     expect(gyms).toHaveLength(2)
     expect(gyms).toEqual([
       expect.objectContaining({ title: 'Gym 21' }),
-      expect.objectContaining({ title: 'Gym 22' })
+      expect.objectContaining({ title: 'Gym 22' }),
     ])
   })
 
@@ -69,9 +67,11 @@ describe('SearchGymsService', () => {
       throw new Error()
     })
 
-    await expect(() => searchGymsService.execute({
-      query: 'Gym 1',
-      page: 1
-    })).rejects.toBeInstanceOf(ExceptionError)
+    await expect(() =>
+      searchGymsService.execute({
+        query: 'Gym 1',
+        page: 1,
+      }),
+    ).rejects.toBeInstanceOf(ExceptionError)
   })
 })

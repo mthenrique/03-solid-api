@@ -1,5 +1,5 @@
-import PrismaCheckInsRepository from "@/infra/database/repositories/prisma/prisma-check-ins-repository"
-import GetUserMetricsService from "../services/get-user-metrics-service"
+import PrismaCheckInsRepository from '@/infra/database/repositories/prisma/prisma-check-ins-repository'
+import GetUserMetricsService from '../services/get-user-metrics-service'
 
 class GetUserMetricsFactory {
   public make() {
