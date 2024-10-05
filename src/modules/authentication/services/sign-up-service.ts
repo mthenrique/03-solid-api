@@ -40,3 +40,4 @@ class SignUpService {
 }
 
 export default SignUpService
+// teste lint
