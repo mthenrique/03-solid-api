@@ -44,7 +44,7 @@ describe('CheckInService', () => {
       phone: '11999999999',
     })
 
-    const checkIn = await checkInService.execute({
+    const { checkIn } = await checkInService.execute({
       userId: createdUser.id,
       gymId: createdGym.id,
       userLatitude: -27.2092052,
