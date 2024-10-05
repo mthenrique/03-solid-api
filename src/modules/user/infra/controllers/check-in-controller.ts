@@ -2,11 +2,12 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import CheckInFactory from '../../factories/check-in-factory'
+import { ICheckInResponse } from '../../dtos/response/i-check-in-response-dto'
 
 class CheckInController {
-  async handle(request: FastifyRequest, reply: FastifyReply) {
-    // TODO: Implements token validation
-    const { userId: nomValidatedUserId } = request
+  async handle(request: FastifyRequest, reply: FastifyReply<ICheckInResponse>) {
+    await request.jwtVerify()
+    const { sub: nomValidatedUserId } = request.user
 
     const checkInBodySchema = z.object({
       userId: z.string().uuid(),

@@ -1,16 +1,14 @@
-import { UsersRepository } from "@/infra/database/repositories/users-repository";
-import { UserNotFoundError } from "../infra/errors/user-not-found-error";
-import { ExceptionError } from "@/infra/errors/exception-error";
-import { IUserDTO } from "@/infra/database/repositories/dtos/users/i-user-dto";
+import { UsersRepository } from '@/infra/database/repositories/users-repository'
+import { UserNotFoundError } from '../infra/errors/user-not-found-error'
+import { ExceptionError } from '@/infra/errors/exception-error'
+import { IUserDTO } from '@/infra/database/repositories/dtos/users/i-user-dto'
 
 interface IGetUserProfileServiceRequest {
   userId: string
 }
 
 class GetUserProfileService {
-  constructor(
-    private usersRepository: UsersRepository
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async execute({ userId }: IGetUserProfileServiceRequest): Promise<IUserDTO> {
     try {

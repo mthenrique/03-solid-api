@@ -1,33 +1,47 @@
-import { PrismaUsersRepository } from "@/infra/database/repositories/prisma/prisma-users-repository";
-import ParametersError from "@/infra/errors/parameters-error";
-import SignInFactory from "@/modules/authentication/factories/sign-in-factory";
-import SignInService from "@/modules/authentication/services/sign-in-service";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { IUserDTO } from '@/infra/database/repositories/dtos/users/i-user-dto'
+import ParametersError from '@/infra/errors/parameters-error'
+import SignInFactory from '@/modules/authentication/factories/sign-in-factory'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { z } from 'zod'
 
 class SignInController {
-  async handle(request: FastifyRequest, reply: FastifyReply) {
+  async handle(
+    request: FastifyRequest,
+    reply: FastifyReply<{ user: IUserDTO; token: string }>,
+  ) {
     const signInBodySchema = z.object({
       email: z.string().email(),
-      password: z.string().min(8)
+      password: z.string().min(8),
     })
 
     const body = signInBodySchema.safeParse(request.body)
 
     if (!body.success) {
-      throw new ParametersError('Parameters validation error', body.error.format())
+      throw new ParametersError(
+        'Parameters validation error',
+        body.error.format(),
+      )
     }
 
     const { email, password } = body.data
 
     const signInFactory = new SignInFactory()
-    
+
     const { user } = await signInFactory.make().execute({
       email,
-      password
+      password,
     })
 
-    return reply.status(200).send({ user })
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
+    return reply.status(200).send({ user, token })
   }
 }
 

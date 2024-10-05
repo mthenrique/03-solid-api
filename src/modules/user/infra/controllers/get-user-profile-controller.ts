@@ -1,14 +1,25 @@
 import { z } from 'zod'
 import GetUserProfileFactory from '../../factories/get-user-profile-factory'
 import ParametersError from '@/infra/errors/parameters-error'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { IUserDTO } from '@/infra/database/repositories/dtos/users/i-user-dto'
 
 class GetUserProfileController {
-  async handle(request: any, reply: any) {
+  async handle(
+    request: FastifyRequest,
+    reply: FastifyReply<{ user: IUserDTO }>,
+  ) {
+    await request.jwtVerify()
+
+    const { sub: nonValidatedUserId } = request.user
+
     const getUserProfileBodySchema = z.object({
       userId: z.string().uuid(),
     })
 
-    const body = getUserProfileBodySchema.safeParse(request.params)
+    const body = getUserProfileBodySchema.safeParse({
+      userId: nonValidatedUserId,
+    })
 
     if (!body.success) {
       throw new ParametersError(

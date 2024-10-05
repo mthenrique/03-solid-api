@@ -2,14 +2,14 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { z } from 'zod'
 import GetUserMetricsFactory from '../../factories/get-user-metrics-factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { IGetUserMetricsResponse } from '../../dtos/response/i-get-user-metrics-response'
 
 class GetUserMetricsController {
   public async handle(
     request: FastifyRequest,
-    reply: FastifyReply,
-  ): Promise<Response> {
-    // TODO: Implements token validation
-    const { userId: nomValidatedUserId } = request
+    reply: FastifyReply<IGetUserMetricsResponse>,
+  ) {
+    const { sub: nomValidatedUserId } = request.user
 
     const getUserMetricsBodySchema = z.object({
       userId: z.string().uuid(),

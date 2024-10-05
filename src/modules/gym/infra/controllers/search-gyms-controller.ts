@@ -2,9 +2,13 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import SearchGymsFactory from '../../factories/search-gyms-factory'
+import { IGymDTO } from '@/infra/database/repositories/dtos/gyms/i-gym-dto'
 
 class SearchGymsController {
-  public async handle(request: FastifyRequest, reply: FastifyReply) {
+  public async handle(
+    request: FastifyRequest,
+    reply: FastifyReply<{ gyms: IGymDTO }>,
+  ) {
     const searchGymsBodySchema = z.object({
       query: z.string(),
       page: z.coerce.number().min(1).default(1),
