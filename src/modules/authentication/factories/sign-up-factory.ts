@@ -1,5 +1,5 @@
-import { PrismaUsersRepository } from "@/infra/database/repositories/prisma/prisma-users-repository"
-import SignUpService from "../services/sign-up-service"
+import { PrismaUsersRepository } from '@/infra/database/repositories/prisma/prisma-users-repository'
+import SignUpService from '../services/sign-up-service'
 
 class SignUpFactory {
   public make() {
