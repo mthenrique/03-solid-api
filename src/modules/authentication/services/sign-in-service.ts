@@ -1,8 +1,8 @@
-import { UsersRepository } from "@/infra/database/repositories/users-repository";
-import { compare } from "bcrypt";
-import { InvalidCredentialError } from "../infra/errors/invalid-credential-error";
-import { ExceptionError } from "@/infra/errors/exception-error";
-import { IUserDTO } from "@/infra/database/repositories/dtos/users/i-user-dto";
+import { UsersRepository } from '@/infra/database/repositories/users-repository'
+import { compare } from 'bcrypt'
+import { InvalidCredentialError } from '../infra/errors/invalid-credential-error'
+import { ExceptionError } from '@/infra/errors/exception-error'
+import { IUserDTO } from '@/infra/database/repositories/dtos/users/i-user-dto'
 
 interface ISignInServiceRequestDTO {
   email: string
@@ -14,11 +14,12 @@ interface ISignInServiceResponseDTO {
 }
 
 class SignInService {
-  constructor(
-    private usersRepository: UsersRepository
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
-  async execute({email, password}: ISignInServiceRequestDTO): Promise<ISignInServiceResponseDTO> {
+  async execute({
+    email,
+    password,
+  }: ISignInServiceRequestDTO): Promise<ISignInServiceResponseDTO> {
     try {
       const user = await this.usersRepository.findByEmailWithPassword(email)
 
@@ -37,14 +38,14 @@ class SignInService {
           id: user.id,
           name: user.name,
           email: user.email,
-          createdAt: user.createdAt
-        }
+          createdAt: user.createdAt,
+        },
       }
-
     } catch (error) {
+      console.log(error)
       if (error instanceof InvalidCredentialError) {
         throw new InvalidCredentialError()
-      } 
+      }
 
       throw new ExceptionError('Sign in error', error)
     }
