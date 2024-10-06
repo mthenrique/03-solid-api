@@ -1,0 +1,12 @@
+set +e # Permitir que o script continue mesmo que um comando falhe
+
+echo "🔍 Executando testes..."
+npm run test
+
+# Verifique o status de saída da execução do coverage
+if [ $? -ne 0 ]; then
+  echo "\n🚨 Ops, parece que os testes falharam! Por favor, corrija os erros antes de continuar com o push.\n" >&2
+  exit 1
+else
+  echo "✅ Testes concluídos com sucesso!"
+fi

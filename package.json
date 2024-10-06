@@ -11,17 +11,23 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src --ext .ts"
+    "lint": "eslint src --ext .ts",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "19.5.0",
+    "@commitlint/config-conventional": "19.5.0",
     "@rocketseat/eslint-config": "2.2.2",
     "@types/bcrypt": "5.0.2",
     "@types/node": "22.5.5",
     "@vitest/coverage-v8": "2.1.1",
     "eslint": "8.57.0",
+    "eslint-formatter-friendly": "7.0.0",
+    "husky": "9.1.6",
+    "lint-staged": "15.2.10",
     "prisma": "5.19.1",
     "tsup": "8.2.4",
     "tsx": "4.19.1",
@@ -37,5 +43,10 @@
     "dotenv": "16.4.5",
     "fastify": "2.11.0",
     "zod": "3.23.8"
+  },
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint --format friendly --fix"
+    ]
   }
 }

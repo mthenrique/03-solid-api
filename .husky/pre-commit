@@ -1,0 +1,12 @@
+set +e # Permitir que o script continue mesmo que um comando falhe
+
+echo "📝 Rodando ESLint com formatter amigável..." >&2
+npx lint-staged
+
+# Verifica o status de saída da execução do lint-staged
+if [ $? -ne 0 ]; then
+  echo "\n❌ Erro de linting detectado! Por favor, corrija os erros acima antes de comitar.\n" >&2
+  exit 1
+else
+  echo "✅ Linting bem-sucedido!"
+fi
