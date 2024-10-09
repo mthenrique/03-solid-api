@@ -1,5 +1,5 @@
-import PrismaGymsRepository from "@/infra/database/repositories/prisma/prisma-gyms-repository"
-import ListNearByGymsService from "../services/list-nearby-gyms-service"
+import PrismaGymsRepository from '@/infra/database/repositories/prisma/prisma-gyms-repository'
+import ListNearByGymsService from '../services/list-nearby-gyms-service'
 
 class ListNearbyGymsFactory {
   public make() {

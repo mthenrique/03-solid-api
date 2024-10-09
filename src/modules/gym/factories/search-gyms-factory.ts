@@ -1,5 +1,5 @@
-import PrismaGymsRepository from "@/infra/database/repositories/prisma/prisma-gyms-repository"
-import SearchGymsService from "../services/search-gyms-service"
+import PrismaGymsRepository from '@/infra/database/repositories/prisma/prisma-gyms-repository'
+import SearchGymsService from '../services/search-gyms-service'
 
 class SearchGymsFactory {
   public make() {

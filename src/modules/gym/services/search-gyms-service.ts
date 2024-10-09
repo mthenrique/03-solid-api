@@ -1,6 +1,6 @@
-import { IGymDTO } from "@/infra/database/repositories/dtos/gyms/i-gym-dto";
-import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
-import { ExceptionError } from "@/infra/errors/exception-error";
+import { IGymDTO } from '@/infra/database/repositories/dtos/gyms/i-gym-dto'
+import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
+import { ExceptionError } from '@/infra/errors/exception-error'
 
 interface ISearchGymsServiceRequest {
   query: string
@@ -12,17 +12,18 @@ interface ISearchGymsServiceResponse {
 }
 
 class SearchGymsService {
-  constructor(
-    private gymsRepository: GymsRepository
-  ) {}
+  constructor(private gymsRepository: GymsRepository) {}
 
-  public async execute({ query, page }: ISearchGymsServiceRequest): Promise<ISearchGymsServiceResponse> {
+  public async execute({
+    query,
+    page,
+  }: ISearchGymsServiceRequest): Promise<ISearchGymsServiceResponse> {
     try {
       const gyms = await this.gymsRepository.findGymsByTitle({
         query,
-        page
+        page,
       })
-  
+
       return { gyms }
     } catch (error) {
       throw new ExceptionError('Search gyms error', error)

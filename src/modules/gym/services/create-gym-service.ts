@@ -1,7 +1,6 @@
-import { IGymDTO } from "@/infra/database/repositories/dtos/gyms/i-gym-dto";
-import { GymsRepository } from "@/infra/database/repositories/gyms-repository";
-import { ExceptionError } from "@/infra/errors/exception-error";
-import { prisma } from "@/lib/prisma";
+import { IGymDTO } from '@/infra/database/repositories/dtos/gyms/i-gym-dto'
+import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
+import { ExceptionError } from '@/infra/errors/exception-error'
 
 interface ICreateGymServiceRequest {
   title: string
@@ -12,21 +11,25 @@ interface ICreateGymServiceRequest {
 }
 
 class CreateGymService {
-  constructor(
-    private gymsRepository: GymsRepository
-  ) {}
+  constructor(private gymsRepository: GymsRepository) {}
 
-  public async execute({ title, description, phone, latitude, longitude }: ICreateGymServiceRequest): Promise<IGymDTO> {
+  public async execute({
+    title,
+    description,
+    phone,
+    latitude,
+    longitude,
+  }: ICreateGymServiceRequest): Promise<IGymDTO> {
     try {
       const gym = await this.gymsRepository.create({
         title,
         description,
         phone,
         latitude,
-        longitude
+        longitude,
       })
-  
-      return gym  
+
+      return gym
     } catch (error) {
       throw new ExceptionError('Create gym error', error)
     }

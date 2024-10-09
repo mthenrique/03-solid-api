@@ -1,31 +1,37 @@
-import { prisma } from "@/lib/prisma"
-import { ICreateUserDTO } from "../dtos/users/i-create-user-dto"
-import { UsersRepository } from "../users-repository"
-import { IUserDTO, IUserWithPasswordDTO } from "../dtos/users/i-user-dto"
+import { prisma } from '@/lib/prisma'
+import { ICreateUserDTO } from '../dtos/users/i-create-user-dto'
+import { UsersRepository } from '../users-repository'
+import { IUserDTO, IUserWithPasswordDTO } from '../dtos/users/i-user-dto'
 
 class PrismaUsersRepository implements UsersRepository {
-  async create({name, email, passwordHash}: ICreateUserDTO): Promise<IUserDTO> {
+  async create({
+    name,
+    email,
+    passwordHash,
+  }: ICreateUserDTO): Promise<IUserDTO> {
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password_hash: passwordHash
-      }
+        password_hash: passwordHash,
+      },
     })
 
     return {
       id: user.id,
       name: user.name,
       email: user.email,
-      createdAt: user.created_at
+      createdAt: user.created_at,
     }
   }
 
-  async findByEmailWithPassword(email: string): Promise<IUserWithPasswordDTO | null> {
+  async findByEmailWithPassword(
+    email: string,
+  ): Promise<IUserWithPasswordDTO | null> {
     const user = await prisma.user.findUnique({
       where: {
-        email
-      }
+        email,
+      },
     })
 
     if (!user) {
@@ -37,7 +43,7 @@ class PrismaUsersRepository implements UsersRepository {
       name: user.name,
       email: user.email,
       passwordHash: user.password_hash,
-      createdAt: user.created_at
+      createdAt: user.created_at,
     }
   }
 
@@ -47,11 +53,11 @@ class PrismaUsersRepository implements UsersRepository {
         id: true,
         name: true,
         email: true,
-        created_at: true
+        created_at: true,
       },
       where: {
-        email
-      }
+        email,
+      },
     })
 
     if (!user) {
@@ -62,7 +68,7 @@ class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
-      createdAt: user.created_at
+      createdAt: user.created_at,
     }
   }
 
@@ -72,11 +78,11 @@ class PrismaUsersRepository implements UsersRepository {
         id: true,
         name: true,
         email: true,
-        created_at: true
+        created_at: true,
       },
       where: {
-        id
-      }
+        id,
+      },
     })
 
     if (!user) {
@@ -87,7 +93,7 @@ class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
-      createdAt: user.created_at
+      createdAt: user.created_at,
     }
   }
 }

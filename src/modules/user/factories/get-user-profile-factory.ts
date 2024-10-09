@@ -1,5 +1,5 @@
-import { PrismaUsersRepository } from "@/infra/database/repositories/prisma/prisma-users-repository"
-import GetUserProfileService from "../services/get-user-profile-service"
+import { PrismaUsersRepository } from '@/infra/database/repositories/prisma/prisma-users-repository'
+import GetUserProfileService from '../services/get-user-profile-service'
 
 class GetUserProfileFactory {
   public make() {

@@ -1,9 +1,8 @@
-import { FastifyInstance } from "fastify";
-import { SignUpController } from "../controllers/sign-up-controller";
-import SignInController from "../controllers/sign-in-controller";
+import { FastifyInstance } from 'fastify'
+import { SignUpController } from '../controllers/sign-up-controller'
+import SignInController from '../controllers/sign-in-controller'
 
 export async function authRoutes(app: FastifyInstance) {
-
   const signUpController = new SignUpController()
   const signInController = new SignInController()
 
