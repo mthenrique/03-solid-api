@@ -12,7 +12,7 @@ export async function requireAuth(
     reply.status(401).send({
       statusCode: 401,
       error: 'Unauthorized',
-      message: 'Token inválido ou não fornecido',
+      message: 'Token missing or invalid',
     })
   }
 }
