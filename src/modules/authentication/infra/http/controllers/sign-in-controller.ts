@@ -1,14 +1,11 @@
-import { IUserDTO } from '@/infra/database/repositories/dtos/users/i-user-dto'
 import ParametersError from '@/infra/errors/parameters-error'
 import SignInFactory from '@/modules/authentication/factories/sign-in-factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
+import { ServerResponse } from 'http'
 import { z } from 'zod'
 
 class SignInController {
-  async handle(
-    request: FastifyRequest,
-    reply: FastifyReply<{ user: IUserDTO; token: string }>,
-  ) {
+  async handle(request: FastifyRequest, reply: FastifyReply<ServerResponse>) {
     const signInBodySchema = z.object({
       email: z.string().email(),
       password: z.string().min(8),

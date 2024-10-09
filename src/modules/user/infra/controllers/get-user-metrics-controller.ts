@@ -2,12 +2,12 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { z } from 'zod'
 import GetUserMetricsFactory from '../../factories/get-user-metrics-factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { IGetUserMetricsResponse } from '../../dtos/response/i-get-user-metrics-response'
+import { ServerResponse } from 'http'
 
 class GetUserMetricsController {
   public async handle(
     request: FastifyRequest,
-    reply: FastifyReply<IGetUserMetricsResponse>,
+    reply: FastifyReply<ServerResponse>,
   ) {
     const { sub: nomValidatedUserId } = request.user
 

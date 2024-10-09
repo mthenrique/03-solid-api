@@ -2,12 +2,12 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import CreateGymFactory from '../../factories/create-gym-factory'
-import { IGymDTO } from '@/infra/database/repositories/dtos/gyms/i-gym-dto'
+import { ServerResponse } from 'http'
 
 class CreateGymController {
   public async handle(
     request: FastifyRequest,
-    reply: FastifyReply<{ gyms: IGymDTO }>,
+    reply: FastifyReply<ServerResponse>,
   ) {
     const createGymBodySchema = z.object({
       title: z.string(),
