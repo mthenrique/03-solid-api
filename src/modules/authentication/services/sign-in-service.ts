@@ -42,7 +42,6 @@ class SignInService {
         },
       }
     } catch (error) {
-      console.log(error)
       if (error instanceof InvalidCredentialError) {
         throw new InvalidCredentialError()
       }

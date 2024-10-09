@@ -4,6 +4,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
+    environmentMatchGlobs: [['src/modules/**/infra/http/**', 'prisma']],
+    dir: './tests',
     coverage: {
       reporter: ['text', 'json', 'html'], // Formatos de saída da cobertura
       include: ['src/**/*.ts', 'src/**/*.tsx'], // Arquivos que você deseja incluir
