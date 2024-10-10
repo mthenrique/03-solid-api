@@ -38,7 +38,20 @@ class SignInController {
       },
     )
 
-    return reply.status(200).send({ user, token })
+    const refreshToken = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: '7d',
+        },
+      },
+    )
+
+    return reply
+      .setCookie('refreshToken', refreshToken)
+      .status(200)
+      .send({ user, token })
   }
 }
 
