@@ -50,8 +50,6 @@ describe('ListUserCheckInsService', () => {
       page: 2,
     })
 
-    console.log('checkIns: ', checkIns.length)
-
     expect(checkIns).toHaveLength(2)
     expect(checkIns).toEqual([
       expect.objectContaining({ gymId: 'gym-21' }),
