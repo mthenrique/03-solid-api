@@ -1,14 +1,10 @@
 import ParametersError from '@/infra/errors/parameters-error'
 import SignUpFactory from '@/modules/authentication/factories/sign-up-factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ServerResponse } from 'http'
 import { z } from 'zod'
 
 class SignUpController {
-  async handle(
-    request: FastifyRequest,
-    reply: FastifyReply<ServerResponse>,
-  ): Promise<void> {
+  async handle(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const signUpBodySchema = z.object({
       name: z.string(),
       email: z.string().email(),
@@ -33,7 +29,7 @@ class SignUpController {
       password,
     })
 
-    reply.status(201)
+    reply.status(201).send()
   }
 }
 

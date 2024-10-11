@@ -2,13 +2,9 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import ListNearbyGymsFactory from '../../factories/list-nearby-gyms-factory'
-import { ServerResponse } from 'http'
 
 class ListNearbyGymsController {
-  public async handle(
-    request: FastifyRequest,
-    reply: FastifyReply<ServerResponse>,
-  ) {
+  public async handle(request: FastifyRequest, reply: FastifyReply) {
     const listNearbyGymsBodySchema = z.object({
       userLatitude: z.coerce.number(),
       userLongitude: z.coerce.number(),
