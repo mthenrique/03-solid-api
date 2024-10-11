@@ -1,12 +1,12 @@
 set +e # Permitir que o script continue mesmo que um comando falhe
 
-echo "📝 Rodando ESLint com formatter amigável..." >&2
-npx lint-staged
+echo "🔍 Running tests..."
+npm run test
 
-# Verifica o status de saída da execução do lint-staged
+# Verifique o status de saída da execução do coverage
 if [ $? -ne 0 ]; then
-  echo "\n❌ Erro de linting detectado! Por favor, corrija os erros acima antes de comitar.\n" >&2
+  echo "\n🚨 Oops, looks like the tests failed! Please correct the errors before continuing with the push.\n" >&2
   exit 1
 else
-  echo "✅ Linting bem-sucedido!"
+  echo "✅ Tests completed successfully!"
 fi

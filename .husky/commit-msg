@@ -1,6 +1,6 @@
 set +e # Permitir que o script continue mesmo que um comando falhe
 
-echo "\n📝 Validando mensagem de commit..."
+echo "\n📝 Validating commit message..."
 npx commitlint --edit "$1"
 
 # Se o commitlint falhar, exiba as mensagens amigáveis
@@ -9,5 +9,5 @@ if [ $? -ne 0 ]; then
   echo "📖 Please see the commit message documentation (commit-msg.md)." >&2
   exit 1
 else
-  echo "✅ Commit bem-sucedido!"
+  echo "✅ Commit successful!"
 fi
