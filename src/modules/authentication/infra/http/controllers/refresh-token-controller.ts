@@ -1,12 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ServerResponse } from 'http'
 
 class RefreshTokenController {
-  async handle(request: FastifyRequest, reply: FastifyReply<ServerResponse>) {
+  async handle(request: FastifyRequest, reply: FastifyReply) {
     await request.jwtVerify({ onlyCookie: true })
 
     const token = await reply.jwtSign(
-      {},
+      {
+        role: request.user.role,
+      },
       {
         sign: {
           sub: request.user.sub,
@@ -15,7 +16,9 @@ class RefreshTokenController {
     )
 
     const refreshToken = await reply.jwtSign(
-      {},
+      {
+        role: request.user.role,
+      },
       {
         sign: {
           sub: request.user.sub,

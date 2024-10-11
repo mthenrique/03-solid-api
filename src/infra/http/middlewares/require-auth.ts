@@ -1,9 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ServerResponse } from 'http'
 
 export async function requireAuth(
   request: FastifyRequest,
-  reply: FastifyReply<ServerResponse>,
+  reply: FastifyReply,
 ) {
   try {
     await request.jwtVerify()

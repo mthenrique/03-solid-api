@@ -21,6 +21,7 @@ class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
+      role: user.role,
       createdAt: user.created_at,
     }
   }
@@ -43,18 +44,13 @@ class PrismaUsersRepository implements UsersRepository {
       name: user.name,
       email: user.email,
       passwordHash: user.password_hash,
+      role: user.role,
       createdAt: user.created_at,
     }
   }
 
   async findByEmail(email: string): Promise<IUserDTO | null> {
     const user = await prisma.user.findUnique({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        created_at: true,
-      },
       where: {
         email,
       },
@@ -68,18 +64,13 @@ class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
+      role: user.role,
       createdAt: user.created_at,
     }
   }
 
   async findById(id: string): Promise<IUserDTO | null> {
     const user = await prisma.user.findUnique({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        created_at: true,
-      },
       where: {
         id,
       },
@@ -93,6 +84,7 @@ class PrismaUsersRepository implements UsersRepository {
       id: user.id,
       name: user.name,
       email: user.email,
+      role: user.role,
       createdAt: user.created_at,
     }
   }

@@ -18,10 +18,12 @@ app.register(fastifyJwt, {
   },
 })
 app.register(fastifyCookie, {
-  path: '/',
-  secure: true,
-  sameSite: true,
-  httpOnly: true,
+  parseOptions: {
+    path: '/',
+    secure: true,
+    sameSite: 'strict', // Altere para 'lax' ou 'none' se necessário
+    httpOnly: true,
+  },
 })
 app.register(appRoutes)
 app.setErrorHandler(globalErrors)

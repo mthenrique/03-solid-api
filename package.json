@@ -51,7 +51,7 @@
     "bcrypt": "5.1.1",
     "dayjs": "1.11.13",
     "dotenv": "16.4.5",
-    "fastify": "2.11.0",
+    "fastify": "5.0.0",
     "zod": "3.23.8"
   },
   "lint-staged": {

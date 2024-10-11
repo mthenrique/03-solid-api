@@ -2,13 +2,9 @@ import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import CreateGymFactory from '../../factories/create-gym-factory'
-import { ServerResponse } from 'http'
 
 class CreateGymController {
-  public async handle(
-    request: FastifyRequest,
-    reply: FastifyReply<ServerResponse>,
-  ) {
+  public async handle(request: FastifyRequest, reply: FastifyReply) {
     const createGymBodySchema = z.object({
       title: z.string(),
       description: z.string().nullable().optional().default(null),
@@ -30,7 +26,7 @@ class CreateGymController {
 
     const createGymFactory = new CreateGymFactory()
 
-    const gym = createGymFactory.make().execute({
+    const gym = await createGymFactory.make().execute({
       title,
       description,
       phone,
