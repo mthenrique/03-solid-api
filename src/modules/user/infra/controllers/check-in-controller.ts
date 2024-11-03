@@ -1,11 +1,10 @@
-import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import CheckInFactory from '../../factories/check-in-factory'
-import { ServerResponse } from 'http'
+import { ParametersError } from '@/infra/errors/parameters-error'
 
 class CheckInController {
-  async handle(request: FastifyRequest, reply: FastifyReply<ServerResponse>) {
+  async handle(request: FastifyRequest, reply: FastifyReply) {
     await request.jwtVerify()
     const { sub: nomValidatedUserId } = request.user
 

@@ -1,11 +1,10 @@
 import { z } from 'zod'
 import GetUserProfileFactory from '../../factories/get-user-profile-factory'
-import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ServerResponse } from 'http'
+import { ParametersError } from '@/infra/errors/parameters-error'
 
 class GetUserProfileController {
-  async handle(request: FastifyRequest, reply: FastifyReply<ServerResponse>) {
+  async handle(request: FastifyRequest, reply: FastifyReply) {
     await request.jwtVerify()
 
     const { sub: nonValidatedUserId } = request.user
