@@ -1,3 +1,4 @@
+import { loadParameter } from '@/env'
 import { CheckInsRepository } from '@/infra/database/repositories/check-ins-repository'
 import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
 import { UsersRepository } from '@/infra/database/repositories/users-repository'
@@ -10,7 +11,7 @@ import { hash } from 'bcrypt'
 import CheckInsRepositoryInMemory from 'tests/in-memory-repositories/check-ins-repository-in-memory'
 import GymsRepositoryInMemory from 'tests/in-memory-repositories/gyms-repository-in-memory'
 import UsersRepositoryInMemory from 'tests/in-memory-repositories/users-repository-in-memory'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest'
 
 let usersRepository: UsersRepository
 let gymsRepository: GymsRepository
@@ -18,6 +19,10 @@ let checkInsRepository: CheckInsRepository
 let checkInService: CheckInService
 
 describe('CheckInService', () => {
+  beforeAll(async () => {
+    await loadParameter({ test: true });
+  });
+  
   beforeEach(() => {
     usersRepository = new UsersRepositoryInMemory()
     gymsRepository = new GymsRepositoryInMemory()

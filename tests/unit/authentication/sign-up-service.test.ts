@@ -1,14 +1,19 @@
 import SignUpService from '@/modules/authentication/services/sign-up-service'
-import { it, expect, describe, vi, beforeEach } from 'vitest'
+import { it, expect, describe, vi, beforeEach, beforeAll } from 'vitest'
 import { compare } from 'bcrypt'
 import { UserAlreadyExistsError } from '@/modules/authentication/infra/errors/user-already-exists-error'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import UsersRepositoryInMemory from 'tests/in-memory-repositories/users-repository-in-memory'
+import { loadParameter } from '@/env'
 
 let usersRepositoryInMemory: UsersRepositoryInMemory
 let signUpService: SignUpService
 
 describe('SignUp', () => {
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
+
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory()
     signUpService = new SignUpService(usersRepositoryInMemory)

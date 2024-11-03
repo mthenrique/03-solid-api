@@ -1,15 +1,20 @@
+import { loadParameter } from '@/env'
 import { UsersRepository } from '@/infra/database/repositories/users-repository'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import { UserNotFoundError } from '@/modules/user/infra/errors/user-not-found-error'
 import GetUserProfileService from '@/modules/user/services/get-user-profile-service'
 import { hash } from 'bcrypt'
 import UsersRepositoryInMemory from 'tests/in-memory-repositories/users-repository-in-memory'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest'
 
 let usersRepository: UsersRepository
 let getUserProfileService: GetUserProfileService
 
 describe('GetUserProfileService', () => {
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
+
   beforeEach(() => {
     usersRepository = new UsersRepositoryInMemory()
     getUserProfileService = new GetUserProfileService(usersRepository)

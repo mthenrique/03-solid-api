@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export default class ParametersError extends Error {
-  declare parameters?: any
+export class ParametersError extends Error {
+  public declare parameters: Record<string, unknown>
 
-  constructor(message: string, parameters?: any) {
+  constructor(message: string, parameters: Record<string, unknown>) {
     super(message)
     this.name = 'ParametersError'
     this.parameters = parameters

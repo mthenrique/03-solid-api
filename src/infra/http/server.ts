@@ -1,11 +1,18 @@
-import { app } from './app'
-import { env } from '../../envs'
+import { env, loadParameter } from '@/env'
 
-app
-  .listen({
-    port: env.PORT,
-    host: '0.0.0.0',
-  })
-  .then(() => {
-    console.log(`Server running on port ${env.PORT}`)
-  })
+const main = async () => {
+  await loadParameter({ test: false })
+
+  const { app } = await import('@/infra/http/app')
+
+  app
+    .listen({
+      port: env.PORT,
+      host: '0.0.0.0',
+    })
+    .then(() => {
+      console.log(`Server running on port ${env.PORT}`)
+    })
+}
+
+main()

@@ -1,14 +1,27 @@
+import { loadParameter } from '@/env'
 import { CheckInsRepository } from '@/infra/database/repositories/check-ins-repository'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import { LateCheckInValidationError } from '@/modules/gym/infra/errors/late-check-in-validation-error'
 import ValidateCheckInService from '@/modules/gym/services/validate-check-in-service'
 import { ResourceNotFoundError } from '@/modules/user/infra/errors/resource-not-found-error'
 import CheckInsRepositoryInMemory from 'tests/in-memory-repositories/check-ins-repository-in-memory'
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+  afterEach,
+  beforeAll,
+} from 'vitest'
 
 describe('ValidateCheckInService', () => {
   let checkInsRepository: CheckInsRepository
   let validateCheckInService: ValidateCheckInService
+
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
 
   beforeEach(() => {
     checkInsRepository = new CheckInsRepositoryInMemory()

@@ -1,12 +1,17 @@
+import { loadParameter } from '@/env'
 import { GymsRepository } from '@/infra/database/repositories/gyms-repository'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import SearchGymsService from '@/modules/gym/services/search-gyms-service'
 import GymsRepositoryInMemory from 'tests/in-memory-repositories/gyms-repository-in-memory'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest'
 
 describe('SearchGymsService', () => {
   let gymsRepository: GymsRepository
   let searchGymsService: SearchGymsService
+
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
 
   beforeEach(() => {
     gymsRepository = new GymsRepositoryInMemory()

@@ -1,14 +1,19 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { hash } from 'bcrypt'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import SignInService from '@/modules/authentication/services/sign-in-service'
 import { InvalidCredentialError } from '@/modules/authentication/infra/errors/invalid-credential-error'
 import UsersRepositoryInMemory from 'tests/in-memory-repositories/users-repository-in-memory'
+import { loadParameter } from '@/env'
 
 let userRepositoryInMemory: UsersRepositoryInMemory
 let signInService: SignInService
 
 describe('SignInService', async () => {
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
+
   beforeEach(() => {
     userRepositoryInMemory = new UsersRepositoryInMemory()
     signInService = new SignInService(userRepositoryInMemory)

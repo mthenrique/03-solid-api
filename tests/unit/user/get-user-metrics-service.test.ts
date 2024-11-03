@@ -1,12 +1,17 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, beforeAll } from 'vitest'
 import { CheckInsRepository } from '@/infra/database/repositories/check-ins-repository'
 import { ExceptionError } from '@/infra/errors/exception-error'
 import GetUserMetricsService from '@/modules/user/services/get-user-metrics-service'
 import CheckInsRepositoryInMemory from 'tests/in-memory-repositories/check-ins-repository-in-memory'
+import { loadParameter } from '@/env'
 
 describe('GetUserMetricsService', () => {
   let checkInsRepository: CheckInsRepository
   let getUserMetricsService: GetUserMetricsService
+
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+  })
 
   beforeEach(() => {
     checkInsRepository = new CheckInsRepositoryInMemory()
