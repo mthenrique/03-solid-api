@@ -1,9 +1,11 @@
 import request from 'supertest'
 import { app } from '@/infra/http/app'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { loadParameter } from '@/env'
 
 describe('RefreshToken (e2e)', async () => {
   beforeAll(async () => {
+    await loadParameter({ test: true })
     await app.ready()
   })
 

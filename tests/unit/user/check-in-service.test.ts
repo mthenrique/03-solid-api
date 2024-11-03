@@ -20,9 +20,9 @@ let checkInService: CheckInService
 
 describe('CheckInService', () => {
   beforeAll(async () => {
-    await loadParameter({ test: true });
-  });
-  
+    await loadParameter({ test: true })
+  })
+
   beforeEach(() => {
     usersRepository = new UsersRepositoryInMemory()
     gymsRepository = new GymsRepositoryInMemory()
