@@ -1,4 +1,4 @@
-import ParametersError from '@/infra/errors/parameters-error'
+import { ParametersError } from '@/infra/errors/parameters-error'
 import SignUpFactory from '@/modules/authentication/factories/sign-up-factory'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'

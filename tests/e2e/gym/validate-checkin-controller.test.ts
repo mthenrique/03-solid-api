@@ -1,10 +1,20 @@
 import { app } from '@/infra/http/app'
 import { createAndAuthenticateUser } from 'tests/utils/create-and-authenticate-user'
-import { describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import request from 'supertest'
 import { prisma } from '@/lib/prisma'
+import { loadParameter } from '@/env'
 
 describe('Validate Check-in (e2e)', () => {
+  beforeAll(async () => {
+    await loadParameter({ test: true })
+    await app.ready()
+  })
+
+  afterAll(async () => {
+    await app.close()
+  })
+
   it('Should be able to validate check-in', async () => {
     const { token } = await createAndAuthenticateUser(app, true)
 

@@ -1,7 +1,7 @@
-import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import ListNearbyGymsFactory from '../../factories/list-nearby-gyms-factory'
+import { ParametersError } from '@/infra/errors/parameters-error'
 
 class ListNearbyGymsController {
   public async handle(request: FastifyRequest, reply: FastifyReply) {

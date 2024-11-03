@@ -1,7 +1,7 @@
-import ParametersError from '@/infra/errors/parameters-error'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import SearchGymsFactory from '../../factories/search-gyms-factory'
+import { ParametersError } from '@/infra/errors/parameters-error'
 
 class SearchGymsController {
   public async handle(request: FastifyRequest, reply: FastifyReply) {
