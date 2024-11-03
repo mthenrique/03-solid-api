@@ -15,9 +15,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          - POSTGRESQL_USER=docker
-          - POSTGRESQL_PASSWORD=docker
-          - POSTGRESQL_DB=api-test
+          POSTGRESQL_USER: docker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DB: api-test
 
     steps:
       - uses: actions/checkout@v3
