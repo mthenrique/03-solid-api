@@ -21,33 +21,33 @@ Este projeto foi desenvolvido para demonstrar:
 
 ```
 📁 src/
-├── 🏛️ modules/           # Módulos de negócio
-│   ├── 🔐 authentication/  # Autenticação (Sign In, Sign Up, Refresh Token)
-│   │   ├── 📋 dtos/       # Data Transfer Objects
-│   │   ├── 🏭 factories/   # Injeção de dependências
-│   │   ├── 🔧 infra/       # Controllers, rotas e erros específicos
-│   │   └── ⚙️ services/    # Lógica de negócio de autenticação
-│   ├── 👤 user/           # Gestão de usuários - Mesma estrutura de 'authentication'
-│   └── 🏋️ gym/            # Gestão de academias - Mesma estrutura de 'authentication'
-├── 🔧 infra/              # Infraestrutura da aplicação
-│   ├── 🗄️ database/       # Repositórios e DTOs
-│   │   ├── 📋 dtos/       # Data Transfer Objects
-│   │   ├── 🏭 repositories/ # Interfaces dos repositórios
-│   │   └── 🗄️ prisma/     # Implementações Prisma
-│   ├── 🌐 http/           # Servidor HTTP e middlewares
-│   │   ├── 🛡️ middlewares/ # Middlewares globais
-│   │   └── 🛣️ routes/     # Configuração de rotas
-│   ├── 🔌 providers/      # Provedores de serviços
-│   │   └── 📦 parameter-storage/ # Armazenamento de parâmetros
-│   └── 🛡️ errors/         # Tratamento global de erros
-├── 🌍 env/                # Configuração de ambiente
-│   ├── 📋 dtos/          # DTOs de configuração
-│   ├── 🏭 factories/     # Fábricas de configuração
-│   └── 🔌 providers/     # Provedores de validação
-├── 📋 @types/            # Definições de tipos TypeScript
-├── ⚙️ config/            # Configurações da aplicação
-├── 📦 lib/               # Bibliotecas externas (Prisma)
-└── 🔤 enum/              # Enumerações do sistema
+├── modules/           # Módulos de negócio
+│   ├── authentication/  # Autenticação (Sign In, Sign Up, Refresh Token)
+│   │   ├── dtos/       # Data Transfer Objects
+│   │   ├── factories/   # Injeção de dependências
+│   │   ├── infra/       # Controllers, rotas e erros específicos
+│   │   └── services/    # Lógica de negócio de autenticação
+│   ├── user/           # Gestão de usuários - Mesma estrutura de 'authentication'
+│   └── gym/            # Gestão de academias - Mesma estrutura de 'authentication'
+├── infra/              # Infraestrutura da aplicação
+│   ├── database/       # Repositórios e DTOs
+│   │   ├── dtos/       # Data Transfer Objects
+│   │   ├── repositories/ # Interfaces dos repositórios
+│   │   └── prisma/     # Implementações Prisma
+│   ├── http/           # Servidor HTTP e middlewares
+│   │   ├── middlewares/ # Middlewares globais
+│   │   └── routes/     # Configuração de rotas
+│   ├── providers/      # Provedores de serviços
+│   │   └── parameter-storage/ # Armazenamento de parâmetros
+│   └── errors/         # Tratamento global de erros
+├── env/                # Configuração de ambiente
+│   ├── dtos/          # DTOs de configuração
+│   ├── factories/     # Fábricas de configuração
+│   └── providers/     # Provedores de validação
+├── @types/            # Definições de tipos TypeScript
+├── config/            # Configurações da aplicação
+├── lib/               # Bibliotecas externas (Prisma)
+└── enum/              # Enumerações do sistema
 ```
 
 ### Modelo de Dados
